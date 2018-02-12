@@ -1,6 +1,6 @@
 <html>
 <head>
-        <title>Edge creation</title>
+        <title>Slideshow</title>
         <link rel="shortcut icon" href="http://netgear.rohidekar.com/static/icons/skin/ball/ball_009.png" type="image/x-icon" />
         <meta charset="utf-8" />
 
@@ -8,27 +8,74 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
         <script src="http://netgear.rohidekar.com/cream/jsLouvain.js" type="text/JavaScript"></script>
         <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/purl/2.3.1/purl.js"></script>
+		<script src="image-scale.js" type="text/javascript"></script>
+<script src="jquery.imagefit.js"></script>
 
 </head>
 <style>
-  svg {
-    height: 800px;
-    width: 800px;
-    border: 1px solid red;
-  }
-
-  .candidate {
-        height :200px;
-  }
+ 
 </style>
 <body>
 
 <script>
-</script>
-</body>
-<footer>
 
-</footer>
+
+function resize()
+{
+    var img    = document.getElementsByTagName('img')[0];
+        winDim = getWinDim();
+
+
+    img.style.height = winDim.y + "px";
+
+    if (img.offsetWidth > winDim.x)
+    {
+        img.style.height = null;
+        img.style.width = winDim.x + "px";
+    }
+}
+
+function getWinDim()
+{
+    var body = document.documentElement || document.body;
+
+    return {
+        x: window.innerWidth  || body.clientWidth,
+        y: window.innerHeight || body.clientHeight
+    }
+}
+
+
+  
+d3.text("http://localhost:4489/images.txt?t=" + Math.random(), function(error, nodes) {
+		d3.text("http://localhost:4489/images.txt?t=" + Math.random(), function(error, data1) {
+		
+			var images = nodes.split('\n');
+			var i = 0;
+			
+			(function myLoop (i) {          
+			   setTimeout(function () {   
+				  console.debug(i);
+				  $("#theImage").attr("src", "http://localhost:4489/" + images[i]);
+
+				  resize();
+				
+				  ++i;
+				  if (i < 200) {
+					  myLoop(i);
+				  }
+			   }, 4000)
+			})(0);
+		});
+});
+
+</script>
+
+<center>
+	<img id="theImage" >    
+</center>
+
+</body>
 
 
 
