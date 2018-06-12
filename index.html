@@ -49,6 +49,7 @@ var elem = document.getElementsByTagName("body")[0];
 elem.onclick = function() {
 	req = elem.requestFullScreen || elem.webkitRequestFullScreen || elem.mozRequestFullScreen;
 	req.call(elem);
+	$("#theTextArea").hide();
 }
   
 d3.text("http://netgear.rohidekar.com:4452/tmp/images.txt?t=" + Math.random(), function(error, nodes) {
@@ -82,7 +83,7 @@ var windowHeight = window.innerHeight;
 				}
 				
 				  ++i;
-				  if (i < 20) {
+				  if (i < 200) {
 					  myLoop(i);
 				  } else {
 					  myLoop(0);
@@ -94,6 +95,9 @@ var windowHeight = window.innerHeight;
 
 </script>
 
+<textarea id="theTextArea" cols=200>
+find /Unsorted/images/ -maxdepth 1 -type f -not -empty | shuf | head -100 | tee /tmp/images.txt
+</textarea>
 <center>
 	<img id="theImage" >    
 </center>
